@@ -8,16 +8,32 @@ function mostrarResultado() {
 const categoriasForm = reactive({
   nome: '',
   email: '',
+  nascimento: '',
   senha: '',
   confirmarSenha: '',
-  nascimento: '',
   endereco: '',
   cidade: '',
   estado: '',
-  hobbies: [],
+  hobbie: [],
   linguagensProg: [],
   biografia: ''
 })
+
+const hobbies = [
+  { nome: 'Dança' },
+  { nome: 'Instrumentos musicais' },
+  { nome: 'Esportes' },
+  { nome: 'Culinária' }
+]
+
+const linguagemProg = [
+  { nome: 'HTML' },
+  { nome: 'JavaScript' },
+  { nome: 'Java' },
+  { nome: 'Python' },
+  { nome: 'PHP' },
+  { nome: 'C++' }
+]
 
 const estados = [
   { sigla: 'AC', nomeEstados: 'Acre' },
@@ -57,39 +73,87 @@ const estados = [
       <div>
         <label for="nome">Nome: </label>
         <input type="text" v-model="categoriasForm.nome" required id="nome" />
-        <hr>
+        <hr />
         <label for="email">E-mail: </label>
         <input type="text" v-model="categoriasForm.email" required id="email" />
-        <hr>
+        <hr />
         <label for="senha">Senha: </label>
         <input type="password" v-model="categoriasForm.senha" required id="senha" />
-        <hr>
+        <hr />
         <label for="confirmarSenha">Confirme sua senha: </label>
-        <input type="password" v-model="categoriasForm.confirmarSenha" required id="confirmarSenha" />
-        <hr>
+        <input
+          type="password"
+          v-model="categoriasForm.confirmarSenha"
+          required
+          id="confirmarSenha"
+        />
+        <div v-if="categoriasForm.confirmarSenha != categoriasForm.senha">
+          <alert> A senha confirmada não é igual a senha </alert>
+        </div>
+        <hr />
         <label for="nascimento">Data de nascimento: </label>
         <input type="date" v-model="categoriasForm.nascimento" required id="nascimento" />
-        <hr>
+        <hr />
         <label for="endereco">Endereço: </label>
         <input type="text" v-model="categoriasForm.endereco" required id="endereco" />
-        <hr>
+        <hr />
         <label for="cidade">Cidade: </label>
         <input type="text" v-model="categoriasForm.cidade" required id="cidade" />
-        <hr>
+        <hr />
         <label for="estados">Estado: </label>
         <select id="estado" v-model="categoriasForm.estado">
-              <option selected disabled value="">Selecionar...</option>
-              <option v-for="estado of estados" :key="estados.sigla" :value="estado.sigla">
-                {{ estado.nome }}
-              </option>
-          </select>
+          <option selected disabled value="">Selecionar</option>
+          <option v-for="estado of estados" :key="estados.sigla" :value="estado.nomeEstados">
+            {{ estado.sigla }}
+          </option>
+        </select>
+        <hr />
+        <label for="hobbies"> Hobbies:</label>
+        <template v-for="hobbie in hobbies" :key="hobbie.nome">
+          <input v-model="categoriasForm.hobbie" :value="hobbie.nome" type="checkbox" />
+          {{ hobbie.nome }}
+        </template>
+        <hr />
+        <label for="linguagensProg">Linguagens de programação:</label>
+        <template v-for="linguagem in linguagemProg" :key="linguagem.nome">
+          <input v-model="categoriasForm.linguagensProg" :value="linguagem.nome" type="checkbox" />
+          {{ linguagem.nome }}
+        </template>
+        <hr />
+        <label for="biografia">Escreva uma breve biografia: </label>
+        <input type="text" v-model="categoriasForm.biografia" />
+        <hr />
       </div>
       <button type="submit">Mostrar resultado</button>
     </form>
     <section v-if="resultado">
       <div>
-        <p v-for="(value, index) of categoriasForm" :key="index">{{ index }}: {{ value }}</p>
+        <p v-for="(value, index) of categoriasForm" :key="index">{{ index }}:{{ value }}</p>
       </div>
     </section>
   </main>
 </template>
+
+<style scoped>
+h1 {
+  font-size: 40px;
+  margin: 0%;
+  text-align: center;
+  padding: 10px;
+  background: #9b9b9b;
+  color: #ffffff;
+}
+
+form {
+  padding: 20px;
+  margin: 8%;
+  background: #b6b6b6;
+  border-radius: 10px;
+}
+
+input {
+  border-radius: 8px;
+  margin-left: 2%;
+  background: #dfdfdf;
+}
+</style>
