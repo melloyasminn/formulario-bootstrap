@@ -27,7 +27,6 @@ const hobbies = [
 ]
 
 const linguagemProg = [
-  { nome: 'HTML' },
   { nome: 'JavaScript' },
   { nome: 'Java' },
   { nome: 'Python' },
@@ -64,6 +63,22 @@ const estados = [
   { sigla: 'SE', nomeEstados: 'Sergipe' },
   { sigla: 'TO', nomeEstados: 'Tocantins' }
 ]
+
+const data = ref('')
+
+function confirmSenha() {
+  if (categoriasForm.confirmarSenha == categoriasForm.senha) {
+    mostrarResultado
+    data.value =
+      categoriasForm.nascimento.slice(8, 11) +
+      '/' +
+      categoriasForm.nascimento.slice(5, 7) +
+      '/' +
+      categoriasForm.nascimento.slice(0, 4)
+  } else {
+    alert('As senhas informadas não são iguais!')
+  }
+}
 </script>
 
 <template>
@@ -72,24 +87,22 @@ const estados = [
     <form @submit.prevent="mostrarResultado">
       <div>
         <label for="nome">Nome: </label>
-        <input type="text" v-model="categoriasForm.nome" required id="nome" />
+        <input type="text" v-model="categoriasForm.nome" required id="nome" minlength="3"/>
         <hr />
         <label for="email">E-mail: </label>
-        <input type="text" v-model="categoriasForm.email" required id="email" />
+        <input type="email" v-model="categoriasForm.email" required id="email" />
         <hr />
         <label for="senha">Senha: </label>
-        <input type="password" v-model="categoriasForm.senha" required id="senha" />
+        <input type="password" v-model="categoriasForm.senha" required id="senha" minlength="4"/>
         <hr />
         <label for="confirmarSenha">Confirme sua senha: </label>
         <input
           type="password"
           v-model="categoriasForm.confirmarSenha"
           required
-          id="confirmarSenha"
+          id="confirmarSenha" minlength="4"
         />
-        <div v-if="categoriasForm.confirmarSenha != categoriasForm.senha">
-          <alert> A senha confirmada não é igual a senha </alert>
-        </div>
+        <div v-if="categoriasForm.confirmarSenha != categoriasForm.senha"></div>
         <hr />
         <label for="nascimento">Data de nascimento: </label>
         <input type="date" v-model="categoriasForm.nascimento" required id="nascimento" />
@@ -120,15 +133,33 @@ const estados = [
           {{ linguagem.nome }}
         </template>
         <hr />
-        <label for="biografia">Escreva uma breve biografia: </label>
-        <input type="text" v-model="categoriasForm.biografia" />
+        <label for="biografia" >Escreva uma breve biografia: </label>
+        <input type="string" v-model="categoriasForm.biografia" minlength="10" maxlength="50"/>
         <hr />
       </div>
-      <button type="submit">Mostrar resultado</button>
+      <button type="submit" @click="confirmSenha">Mostrar resultado</button>
     </form>
     <section v-if="resultado">
       <div>
-        <p v-for="(value, index) of categoriasForm" :key="index">{{ index }}:{{ value }}</p>
+        <p>Nome: {{ categoriasForm.nome }}</p>
+        <hr />
+        <p>E-mail: {{ categoriasForm.email }}</p>
+        <hr />
+        <p>Senha: {{ categoriasForm.senha }}</p>
+        <hr />
+        <p>Data de nascimento: {{ data }}</p>
+        <hr />
+        <p>Endereço: {{ categoriasForm.endereco }}</p>
+        <hr />
+        <p>Cidade {{ categoriasForm.cidade }}</p>
+        <hr />
+        <p>Estado: {{ categoriasForm.estado }}</p>
+        <hr />
+        <p>Hobbies: {{ categoriasForm.hobbie }}</p>
+        <hr />
+        <p>Linguagens de programação: {{ categoriasForm.linguagensProg }}</p>
+        <hr />
+        <p>Biografia: {{ categoriasForm.biografia }}</p>
       </div>
     </section>
   </main>
@@ -155,5 +186,20 @@ input {
   border-radius: 8px;
   margin-left: 2%;
   background: #dfdfdf;
+  border: white;
+}
+
+section {
+  padding: 20px;
+  margin: 8%;
+  background: #797979;
+  border-radius: 10px;
+  color: white;
+}
+
+button {
+  border: white;
+  padding: 1%;
+  border-radius: 8px;
 }
 </style>
