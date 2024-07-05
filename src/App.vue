@@ -134,7 +134,7 @@ function confirmSenha() {
         </template>
         <hr />
         <label for="biografia" >Escreva uma breve biografia: </label>
-        <input type="string" v-model="categoriasForm.biografia" minlength="10" maxlength="50"/>
+        <input type="string" v-model="categoriasForm.biografia" minlength="10" maxlength="50" required/>
         <hr />
       </div>
       <button type="submit" @click="confirmSenha">Mostrar resultado</button>
